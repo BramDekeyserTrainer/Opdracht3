@@ -16,7 +16,9 @@ namespace Opdracht3
          De eerste stapel is de stapel met integers.
         De tweede stapel is de stapel met strings.
         De derde stapel is de stapel van mijn custom kleine klasse 'Auto'.
-        De stapel 'Auto' bevat de merken van de auto's. (Property 'Merk').*/
+        De stapel 'Auto' bevat de merken van de auto's.
+        Dit is tekst. (Geen integer.)
+        (Property 'Merk').*/
         Stapel<int> stapelInteger = new Stapel<int>();
         Stapel<string> stapelString = new Stapel<string>();
         Stapel<Auto> stapelAuto = new Stapel<Auto>();
