@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using static System.Windows.Forms.AxHost;
 
 namespace Opdracht3
 {
@@ -16,7 +18,8 @@ namespace Opdracht3
     {
         /*Ik maak een private list aan.
          Deze noem ik 'container'.*/
-        private List<T> container;
+        private List<T> container = new List<T>();
+        public int teller = -1;
 
         /*Ik maak de constructor van de klasse Stapel aan.
          Deze bevat de List 'container'.*/
@@ -35,24 +38,47 @@ namespace Opdracht3
         {
             /*met Add voeg ik een item (generisch object) toe aan de List 'container'*/
             container.Add(item);
+            teller++;
         }
 
         /*Een publieke method wordt aangemaakt.
          Deze method dient ervoor om generische objecten (items) te verwijderen uit de stapel.*/
-        public void Verwijderen(T item)
+        public T Verwijderen()
         {
-            /*met Remove verwijder ik een item (generisch object) uit de List 'container'*/
-            container.Remove(item);
+            
+            /*Wanneer container leeg is:*/
+            if(container.Count <= 0)
+            {
+                /*Als de stapel al leeg is, zal er een melding worden gegeven.
+                 Deze zegt dat de stapel reeds leeg is.*/
+                MessageBox.Show("Dit is een reeds lege stapel.");
+                throw new Exception();
+            }
+            
+            /*Wanneer container niet leeg is: (Else)*/
+            else
+            {
+                T teller = container[container.Count - 1];
+                /*Ik bepaal de positie waar er moet worden verwijderd.*/
+                container.RemoveAt(container.Count - 1);
+
+                /*Er wordt bevestigd via een melding dat het item is verwijderd.*/
+                MessageBox.Show("Item is verwijderd.");
+
+                /*Ik return de teller.*/
+                return teller;
+            }
         }
 
         /*Een publieke method wordt aangemaakt.
          Deze method dient ervoor om de gehele stapel leeg te maken.*/
-        public void Leegmaken(T item)
+        public void Leegmaken()
         {
             /*Met Clear verwijder ik alle items (generische objecten) uit de List 'container'.
              In dit geval moet er geen 'T item' staan tussen de haakjes,
             omdat het compleet wordt leeggehaald.*/
             container.Clear();
+            teller = -1;
         }
 
         /*Ik maak een override string method 'ToString'.
@@ -61,8 +87,14 @@ namespace Opdracht3
         {
             /*De informatie wordt in een variabele 'inhoud' gegoten.
              Alle container items worden in de string gegoten, en krijgen
-            '/' als separator.*/
-            var inhoud = string.Join(" / ", container);
+            '/' als separator.
+            Ik gebruik hiervoor een foreach.*/
+            string inhoud = null;
+            foreach (T item in container)
+            {
+                inhoud += item.ToString();
+                inhoud += " / ";
+            }
 
             /*Ik return de inhoud.*/
             return inhoud;
@@ -85,6 +117,7 @@ namespace Opdracht3
             }
         }
 
+
         /*Ik maak een publieke methode aan.
          Deze maakt een shallow kopij aan van een stapel naar een andere.
         Een shallow kopij, wordt er een kopij van het oorspronkelijke object opgeslagen,
@@ -93,7 +126,7 @@ namespace Opdracht3
         de repititieve kopijen opgeslagen.*/
         public object Shallowcopy()
         {
-            return this.MemberwiseClone();
+            return (Stapel<T>)this.MemberwiseClone();
         }
     }
 }
